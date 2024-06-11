@@ -1,10 +1,13 @@
-import React from 'react'
+import AppointmentPage from "./components/AppointmentPage";
 
 function App() {
+ 
+
   return (
-    <div>App</div>
+    <>
+      <AppointmentPage/>
+    </>
   )
 }
 
-
-export default App
+export default App;
