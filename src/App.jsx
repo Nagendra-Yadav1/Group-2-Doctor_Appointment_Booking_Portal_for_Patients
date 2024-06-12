@@ -1,10 +1,14 @@
-import React from 'react'
+import React from 'react';
+import Doctor_detail from './doctor_detail.jsx';
+
+
 
 function App() {
   return (
-    <div>App</div>
-  )
+    <div>
+      <Doctor_detail />
+    </div>
+  );
 }
 
-
-export default App
+export default App;
