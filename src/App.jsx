@@ -1,11 +1,11 @@
-import AppointmentPage from "./components/AppointmentPage";
+import AboutPage from "./components/AboutPage";
 
 function App() {
  
 
   return (
     <>
-      <AppointmentPage/>
+      <AboutPage/>
     </>
   )
 }
