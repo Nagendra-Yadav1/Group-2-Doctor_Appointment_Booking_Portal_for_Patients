@@ -1,0 +1,70 @@
+.doctorHeading{
+    background: gray 40%;
+    background-image: linear-gradient(to left,  #1b1b1b 33%, #ffffffd5 33%);  
+    /* background-image: url(https://img.freepik.com/free-photo/side-view-doctor-holding-smartphone_23-2149941459.jpg); */
+    width: 220vh;
+    height: 740px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* filter: blur(5px); */
+}
+
+
+.doctorTitle{
+    margin-top: 80px;
+    margin-left: 100px;
+    font-weight: 700;
+}
+
+.doctorTitle ul {
+    padding: 0px;
+    margin: 0;
+}
+
+.doctorTitle ul li {
+    color: gray;
+    display: inline-block; 
+    margin-right: 150px;
+
+}
+
+.doctorPortal .doctorHeading h1{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-image: linear-gradient(to right, #19D3AE, #0FCFEC); 
+    color: rgb(12, 12, 12);
+    font-weight: 700;
+    border-radius: 2px;
+    font-size: 20px;
+}
+
+.section .form > button{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-image: linear-gradient(to right, #19D3AE, #0FCFEC);
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+    margin-right: 38%;
+    margin-left: 0;
+    margin-top: 10%;
+}
+
+.form{
+    margin-left: 100px;
+    margin-top: 50px;
+}
+
+.form label{
+    color:rgb(127, 124, 124);
+    font-weight: 500;
+}
+
+.form select, .form input, .form textarea, .form p{
+    margin-top: 60px;
+    width: 50%;
+    padding: 5px;
+    border: 1px solid black;
+}
