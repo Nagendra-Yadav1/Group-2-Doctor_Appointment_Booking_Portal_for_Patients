@@ -1,4 +1,3 @@
-<<<<<<< HEAD:Frontend/package.json
 {
   "name": "group-2-react-project",
   "private": true,
@@ -40,5 +39,3 @@
     "vite": "^5.2.0"
   }
 }
-=======
->>>>>>> 2a6dc78cff7d91b57e69d13a4bba90f9055a9f77:package.json
