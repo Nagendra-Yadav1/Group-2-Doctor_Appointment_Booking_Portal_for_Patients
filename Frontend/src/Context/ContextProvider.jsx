@@ -11,7 +11,9 @@ function ContextProvider({ children }) {
     const [hospitalSlider, setHospitalSlider] = useState([]);
     const [name, setName] = useState(localStorage.getItem("name"))
     const [doctorData, setDoctorData] = useState([])
+    const [email, setEmail] = useState(localStorage.getItem("email"))
     const [token, setToken] = useState("")
+    const [appointData, setAppointmentData] = useState([])
     const navigate = useNavigate()
     useEffect(() => {
         const fetchHomeData = async () => {
@@ -65,9 +67,27 @@ function ContextProvider({ children }) {
         }
 
 
+        const fetchAppointmentData = async () => {
+            try {
+
+                const getAllAppointmentData = await axios.get(`${url}/appointmentdata`, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true
+                })
+                setAppointmentData(getAllAppointmentData.data.messages)
+
+            }
+            catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
         fetchallDoctorData();
         fetchHomeData();
         fetchHospitalData();
+        fetchAppointmentData()
     }, [url, name]);
 
 
@@ -137,11 +157,11 @@ function ContextProvider({ children }) {
                 theme: "dark",
                 transition: Bounce,
             });
-
+            localStorage.setItem("email", responce.data.email)
+            setEmail(responce.data.email)
             setTimeout(() => {
                 if (responce.data.role === "doctor") {
                     localStorage.setItem("name", responce.data.name)
-                    setName(responce.data.name)
                     navigate("/doctorDashboard");
                 }
             }, 1500)
@@ -187,9 +207,9 @@ function ContextProvider({ children }) {
                 theme: "dark",
             });
             setTimeout(() => {
-                if (role === "doctor") {
-                    navigate("/doctors");
-                }
+                localStorage.setItem("email", response.data.email)
+                setEmail(response.data.email)
+                navigate("/doctors");
             }, 1500)
 
         }
@@ -208,7 +228,6 @@ function ContextProvider({ children }) {
             });
         }
     }
-
 
 
     const Doctor_data = async (title, experiences, img, phoneNumber, OPD, hospital, fees, details) => {
@@ -255,10 +274,50 @@ function ContextProvider({ children }) {
     }
 
 
+    const appointment = async (time, details, email, img, name, experiences) => {
+        console.log(time, details, email, img, name, experiences)
+        try {
+
+            const responce = await axios.post(`${url}/appointment`, { time, details, email, img, name, experiences },
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true
+                })
+            toast.success(responce.data.message, {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+
+        }
+        catch (error) {
+            console.log("Showing error in fetching data", error)
+        }
+    }
 
 
+    const deleteAppointment = async (id) => {
+        try {
+            const response = await axios.delete(`${url}/appointments/${id}`, { method: "DELETE" });
+            console.log(response)
+        }
+        catch (error) {
+            console.log("Showing error in fetching data", error)
+        }
+    }
+
+    console.log(token)
+    
     return (
-        <ContextCreateApi.Provider value={{ slider, hospitalSlider, SendMessage, signup, Login, Doctor_data, doctorData }}>
+        <ContextCreateApi.Provider value={{ email, slider, hospitalSlider, SendMessage, signup, Login, Doctor_data, doctorData, appointment, appointData,deleteAppointment}}>
             {children}
         </ContextCreateApi.Provider>
     );

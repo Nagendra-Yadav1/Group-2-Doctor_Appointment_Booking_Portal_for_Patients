@@ -8,5 +8,4 @@ function AppointmentPart() {
     </>
   )
 }
-
 export default AppointmentPart

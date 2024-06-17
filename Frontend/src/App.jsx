@@ -9,8 +9,9 @@ import SignupPage from './components/SignupPage'
 import DoctorsPage from './components/DoctorsPage'
 import AppointmentPart from './components/AppointmentPart'
 import About from './components/About'
-
-
+import User from './components/User'
+import DoctorOneData from './DoctorProfilePage/DoctorOneData'
+import BookingPage from './components/BookingPage'
 function App() {
   return (
     <>
@@ -18,12 +19,14 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginPage/>} />
-          <Route path="/signup" element={<SignupPage/>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/doctorDashboard" element={<DoctorDashboard />} />
-          <Route path="/doctors" element={<DoctorsPage/>} />
-          <Route path='/appointment' element={<AppointmentPart/>}/>
-          <Route path="/about" element={<About/>}/>
+          <Route path="/doctors" element={<User />} />
+          <Route path='/appointment' element={<AppointmentPart />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/doctor/:id" element={<DoctorOneData />} />
+          <Route path="/my-booking" element={<BookingPage />} />
         </Routes>
       </ContextProvider>
 

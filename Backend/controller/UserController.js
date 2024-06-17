@@ -7,7 +7,6 @@ import { User } from '../models/userSchema.js'
 export const Register = catchAsyncErrors(async (req, res, next) => {
     const { name, email, password, role } = req.body;
 
-
     try {
         if (!name || !email || !password || !role) {
             return next(new ErrorHandler("Please fill in all fields!", 400));
@@ -29,7 +28,8 @@ export const Register = catchAsyncErrors(async (req, res, next) => {
             success: true,
             message: "User registered successfully!",
             role:role,
-            name:name
+            name:name,
+            email:email
         });
     } catch (error) {
         next(error);
@@ -70,9 +70,11 @@ export const Login = catchAsyncErrors(async (req, res, next) => {
         const role = user.role
         res.status(200).json({
             success: true,
+            email:email,
             message: `Welcome ${user.name}`,
             token,
             role
+
         });
 
     } catch (error) {

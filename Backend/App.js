@@ -6,6 +6,7 @@ import doctorRouter from "./router/doctorMessage.js"
 import sliderRouter from "./router/SliderRouter.js"
 import homeSliderRouter from "./router/homeSliderRouter.js"
 import { errorMiddleware } from "./middlewares/error.js";
+import appointmentRouter from "./router/appointmentRouter.js"
 import bodyParser from "body-parser"
 import cors from "cors"
 
@@ -31,12 +32,17 @@ app.use("/Hospital", userRouter)
 app.use("/Hospital", doctorRouter)
 app.use("/Hospital", sliderRouter)
 app.use("/Hospital", homeSliderRouter)
+app.use("/Hospital",appointmentRouter)
 app.use(errorMiddleware)
-
 
 app.listen(3000, () => {
     console.log("Server is running on 3000 port very well")
 });
+
+
+
+
+
 
 
 
