@@ -3,18 +3,19 @@ import { ContextCreateApi } from './ContextApi';
 import { toast, Bounce } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-
 function ContextProvider({ children }) {
     const url = "http://localhost:3000/Hospital";
     const [slider, setSliderData] = useState([]);
     const [hospitalSlider, setHospitalSlider] = useState([]);
-    const [name, setName] = useState(localStorage.getItem("name"))
-    const [doctorData, setDoctorData] = useState([])
-    const [email, setEmail] = useState(localStorage.getItem("email"))
-    const [token, setToken] = useState("")
-    const [appointData, setAppointmentData] = useState([])
-    const navigate = useNavigate()
+    const [name, setName] = useState(localStorage.getItem("name"));
+    const [doctorData, setDoctorData] = useState([]);
+    const [email, setEmail] = useState(localStorage.getItem("email"));
+    const [token, setToken] = useState(localStorage.getItem("token"));
+    const [appointData, setAppointmentData] = useState([]);
+    const [isAuthenticated, setisAuthenticated] = useState(false);
+    const [signupData, setSignupData] = useState([]);
+    const [check, setCheck] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchHomeData = async () => {
             try {
@@ -84,11 +85,30 @@ function ContextProvider({ children }) {
             }
         }
 
+        const fetchSignupData = async () => {
+            try {
+
+                const getAllsignupdata = await axios.get(`${url}/signupdata`, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true
+                })
+                setSignupData(getAllsignupdata.data.messages)
+
+            }
+            catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
         fetchallDoctorData();
         fetchHomeData();
         fetchHospitalData();
-        fetchAppointmentData()
+        fetchAppointmentData();
+        fetchSignupData()
     }, [url, name]);
+
 
 
     const SendMessage = async (firstName, lastName, email, phone, message) => {
@@ -135,16 +155,14 @@ function ContextProvider({ children }) {
         }
     };
 
-
     const signup = async (name, email, password, role) => {
         try {
-
             const responce = await axios.post(`${url}/signup`, { name, email, password, role }, {
                 headers: {
                     "Content-Type": "application/json"
                 },
                 withCredentials: true
-            })
+            });
 
             toast.success(responce.data.message, {
                 position: "top-right",
@@ -157,13 +175,11 @@ function ContextProvider({ children }) {
                 theme: "dark",
                 transition: Bounce,
             });
-            localStorage.setItem("email", responce.data.email)
-            setEmail(responce.data.email)
             setTimeout(() => {
-                if (responce.data.role === "doctor") {
-                    localStorage.setItem("name", responce.data.name)
-                    navigate("/doctorDashboard");
-                }
+                localStorage.setItem("name", responce.data.name)
+                setName(responce.data.name);
+                navigate("/login");
+
             }, 1500)
 
         }
@@ -185,8 +201,6 @@ function ContextProvider({ children }) {
 
     }
 
-
-
     const Login = async (email, password) => {
         try {
             const response = await axios.post(`${url}/login`, { email, password }, {
@@ -196,7 +210,8 @@ function ContextProvider({ children }) {
                 withCredentials: true
             })
             const role = response.data.role
-            setToken(response.data.token)
+            setToken(response.data.token);
+            setisAuthenticated(true)
             toast.success(response.data.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -208,11 +223,28 @@ function ContextProvider({ children }) {
             });
             setTimeout(() => {
                 localStorage.setItem("email", response.data.email)
-                setEmail(response.data.email)
-                navigate("/doctors");
+                setEmail(response.data.email);
+                const Email = response.data.email
+                const doctor = doctorData.find(doc => doc.email === Email);
+                console.log(Email)
+                if (doctor && doctor.email === Email) {
+                    console.log(doctor.img)
+                    navigate("/")
+                    setCheck(true)
+
+                }
+                else if (role === "patient") {
+                    navigate("/doctors")
+                    setCheck(false)
+                }
+                else {
+                    navigate("/doctorDashboard")
+                    setCheck(true)
+                }
             }, 1500)
 
         }
+
         catch (error) {
             console.log("Showing error in fetching data", error)
             toast.warn("Invalid Login!!", {
@@ -230,9 +262,28 @@ function ContextProvider({ children }) {
     }
 
 
-    const Doctor_data = async (title, experiences, img, phoneNumber, OPD, hospital, fees, details) => {
+    useEffect(() => {
+        if (token) {
+            localStorage.setItem("token", token)
+        }
+        const tokenFromLocalStorage = localStorage.getItem("token", token)
+        if (tokenFromLocalStorage) {
+            setToken(tokenFromLocalStorage);
+            setisAuthenticated(true)
+        }
+    }, [token]);
+
+
+    const logOut = () => {
+        localStorage.removeItem("token", token)
+        setToken("")
+        setisAuthenticated(false);
+        setCheck(false)
+    }
+
+    const Doctor_data = async (title, experiences, img, phoneNumber, OPD, hospital, fees, details, email) => {
         try {
-            const responce = await axios.post(`${url}/doctordata`, { name, title, experiences, img, phoneNumber, OPD, hospital, fees, details },
+            const responce = await axios.post(`${url}/doctordata`, { name, title, experiences, img, phoneNumber, OPD, hospital, fees, details, email },
                 {
                     headers: {
                         "Content-Type": "application/json"
@@ -274,17 +325,16 @@ function ContextProvider({ children }) {
     }
 
 
-    const appointment = async (time, details, email, img, name, experiences) => {
-        console.log(time, details, email, img, name, experiences)
+    const appointment = async (time, details, email, img, name, experiences, Email) => {
+        console.log(time, details, email, img, name, experiences);
         try {
-
-            const responce = await axios.post(`${url}/appointment`, { time, details, email, img, name, experiences },
+            const responce = await axios.post(`${url}/appointment`, { time, details, email, img, name, experiences, Email },
                 {
                     headers: {
                         "Content-Type": "application/json"
                     },
                     withCredentials: true
-                })
+                });
             toast.success(responce.data.message, {
                 position: "top-right",
                 autoClose: 1500,
@@ -314,13 +364,32 @@ function ContextProvider({ children }) {
         }
     }
 
-    console.log(token)
-    
+
     return (
-        <ContextCreateApi.Provider value={{ email, slider, hospitalSlider, SendMessage, signup, Login, Doctor_data, doctorData, appointment, appointData,deleteAppointment}}>
+        <ContextCreateApi.Provider value={
+            {
+                email,
+                slider,
+                hospitalSlider,
+                SendMessage,
+                signup,
+                Login,
+                Doctor_data,
+                doctorData,
+                appointment,
+                appointData,
+                deleteAppointment,
+                logOut,
+                isAuthenticated,
+                setisAuthenticated,
+                check,
+                signupData
+            }}>
             {children}
         </ContextCreateApi.Provider>
     );
 }
 
 export default ContextProvider;
+
+

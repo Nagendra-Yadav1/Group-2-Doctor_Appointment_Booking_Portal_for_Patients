@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import validator from "validator";
-
 const doctorSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -47,6 +46,11 @@ const doctorSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: [0, "Fees must be a positive number!"]
+  },
+  email: {
+    type: String,
+    required: [true, "Email Is Required!"],
+    validate: [validator.isEmail, "Provide A Valid Email!"],
   },
   details: {
     type: String,

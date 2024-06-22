@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContextCreateApi } from '../Context/ContextApi';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
     const { signup } = useContext(ContextCreateApi)
@@ -63,7 +64,7 @@ const Signup = () => {
         <>
             <ToastContainer />
             <div className="min-h-screen flex items-center justify-center bg-black">
-                <div className=" p-8 rounded-lg shadow-md w-full max-w-md border-2 border-blue-500 ">
+                <div className="p-8 rounded-lg shadow-md w-full max-w-md border-2 border-blue-500">
                     <h2 className="text-3xl font-bold mb-6 text-center text-white">Sign Up</h2>
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
@@ -122,6 +123,12 @@ const Signup = () => {
                             </button>
                         </div>
                     </form>
+                    <div className="mt-4 text-center">
+                        <span className="text-white">Already have an account? </span>
+                        <Link to="/login" className="text-blue-500 hover:text-blue-700">
+                            Login
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>

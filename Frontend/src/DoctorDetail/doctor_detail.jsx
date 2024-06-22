@@ -24,7 +24,7 @@ function Doctor_data() {
     }
 
     const onClickHanlder = (id) => {
-        const filterData = doctorData.filter((item) => item.title ===id)
+        const filterData = doctorData.filter((item) => item.title === id)
         setFilterData(filterData)
     }
     return (
@@ -72,7 +72,6 @@ function Doctor_data() {
                 <h1 className="text-3xl font-bold mb-6">Popular Doctors</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {filterData.length > 0 ?
-
                         filterData.map((doctor) => (
                             <div className="bg-white shadow-md rounded-lg overflow-hidden" key={doctor.id}>
                                 <img

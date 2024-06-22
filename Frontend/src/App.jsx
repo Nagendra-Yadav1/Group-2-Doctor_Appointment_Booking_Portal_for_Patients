@@ -12,6 +12,7 @@ import About from './components/About'
 import User from './components/User'
 import DoctorOneData from './DoctorProfilePage/DoctorOneData'
 import BookingPage from './components/BookingPage'
+import DoctorMain from './components/DoctorMain'
 function App() {
   return (
     <>
@@ -27,6 +28,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/doctor/:id" element={<DoctorOneData />} />
           <Route path="/my-booking" element={<BookingPage />} />
+          <Route path='/profile' element={<DoctorMain />} />
         </Routes>
       </ContextProvider>
 

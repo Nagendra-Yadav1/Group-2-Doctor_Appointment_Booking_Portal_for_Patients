@@ -4,8 +4,7 @@ import { ToastContainer } from 'react-toastify';
 
 const DoctorDashboard = () => {
     const { Doctor_data } = useContext(ContextCreateApi);
-
-
+    const { email } = useContext(ContextCreateApi)
     const [formData, setFormData] = useState({
         title: '',
         experiences: '',
@@ -14,7 +13,8 @@ const DoctorDashboard = () => {
         OPD: '',
         hospital: '',
         fees: '',
-        details: ''
+        details: '',
+        email
     });
 
     const handleChange = (e) => {
@@ -42,12 +42,12 @@ const DoctorDashboard = () => {
             alert('Phone number must be exactly 10 digits');
             return;
         }
-        Doctor_data(formData.title, formData.experiences, formData.img, formData.phoneNumber, formData.OPD, formData.hospital, formData.fees, formData.details)
+        Doctor_data(formData.title, formData.experiences, formData.img, formData.phoneNumber, formData.OPD, formData.hospital, formData.fees, formData.details,formData.email)
     };
 
     return (
         <>
-        <ToastContainer/>
+            <ToastContainer />
             <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-8 shadow-lg rounded-lg">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Doctor Information Form</h2>
 

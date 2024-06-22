@@ -15,8 +15,9 @@ function DoctorOneData() {
   const filteredDoctors = doctorData.filter(doc => doc.title === doctor.title);
 
   const handleBookAppointment = () => {
-    navigate('/appointment', { state: { img: doctor.img, name: doctor.name, experiences: doctor.experiences } });
+    navigate('/appointment', { state: { img: doctor.img, name: doctor.name, experiences: doctor.experiences, Email: doctor.email } });
   };
+
 
   return (
     <div className="max-w-screen-2xl mx-auto p-4 flex flex-wrap">
@@ -81,5 +82,4 @@ function DoctorOneData() {
     </div>
   );
 }
-
 export default DoctorOneData;

@@ -23,13 +23,12 @@ export const Register = catchAsyncErrors(async (req, res, next) => {
         }
 
         user = await User.create({ name, email, password: hashPass, role });
-        console.log(user)
         res.status(201).json({
             success: true,
             message: "User registered successfully!",
-            role:role,
-            name:name,
-            email:email
+            role: role,
+            name: name,
+            email: email
         });
     } catch (error) {
         next(error);
@@ -70,7 +69,7 @@ export const Login = catchAsyncErrors(async (req, res, next) => {
         const role = user.role
         res.status(200).json({
             success: true,
-            email:email,
+            email: email,
             message: `Welcome ${user.name}`,
             token,
             role
@@ -85,6 +84,10 @@ export const Login = catchAsyncErrors(async (req, res, next) => {
 
 
 
-export const profile = async (req, res) => {
-    res.json({ user: req.user })
-}
+export const getAllSignupdata = catchAsyncErrors(async (req, res, next) => {
+    const messages = await User.find();
+    res.status(200).json({
+        success: true,
+        messages,
+    });
+});

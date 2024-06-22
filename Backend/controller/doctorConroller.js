@@ -3,9 +3,9 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 
 export const createDoctor = catchAsyncErrors(async (req, res, next) => {
-    const { name, title, experiences, img, phoneNumber, OPD, hospital, fees, rating, details } = req.body;
+    const { name, title, experiences, img, phoneNumber, OPD, hospital, fees, details,email } = req.body;
 
-    if (!name || !title || !experiences || !img || !phoneNumber || !OPD || !hospital || !fees  || !details ) {
+    if (!name || !title || !experiences || !img || !phoneNumber || !OPD || !hospital || !fees  || !details || !email ) {
         return next(new ErrorHandler("Please fill out the entire form!", 400));
     }
 
@@ -18,7 +18,8 @@ export const createDoctor = catchAsyncErrors(async (req, res, next) => {
         OPD,
         hospital,
         fees,
-        details
+        details,
+        email
     });
 
     const validationError = doctor.validateSync();

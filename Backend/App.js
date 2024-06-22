@@ -10,6 +10,7 @@ import appointmentRouter from "./router/appointmentRouter.js"
 import bodyParser from "body-parser"
 import cors from "cors"
 
+
 const app = express()
 const url = "mongodb+srv://nagendrayadav13938:bGpDM8dw7Vba0mhl@cluster0.2m4pjjo.mongodb.net/"
 mongoose.connect(url, {
@@ -38,6 +39,10 @@ app.use(errorMiddleware)
 app.listen(3000, () => {
     console.log("Server is running on 3000 port very well")
 });
+
+
+
+
 
 
 

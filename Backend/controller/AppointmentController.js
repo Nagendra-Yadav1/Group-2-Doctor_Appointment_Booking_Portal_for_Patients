@@ -1,13 +1,11 @@
 import { Appointment } from "../models/AppointmentModel.js";
 
 export const createAppointment = async (req, res) => {
-    const { time, details, email, img, name, experiences } = req.body;
+    const { time, details, email, img, name, experiences, Email } = req.body;
 
-
-    if (!time || !details || !email || !img || !name || !experiences) {
+    if (!time || !details || !email || !img || !name || !experiences || !Email) {
         return res.status(400).json({ success: false, message: "Please fill in all fields!" });
     }
-
 
     try {
         let appointment = await Appointment.findOne({ time });
@@ -15,7 +13,7 @@ export const createAppointment = async (req, res) => {
             return res.status(409).json({ success: false, message: "This time is already taken" });
         }
 
-        const data = await Appointment.create({ time, details, email, img, name, experiences });
+        const data = await Appointment.create({ time, details, email, img, name, experiences, Email });
         res.status(201).json({
             success: true,
             message: "Appointment created successfully!",
